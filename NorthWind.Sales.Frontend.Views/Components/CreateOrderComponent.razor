@@ -1,0 +1,123 @@
+﻿@using NorthWind.RazorComponents.Validators
+
+<EditForm Model="Order" OnValidSubmit="Order.Send">
+    <ModelValidator Validator="Order.Validator" />
+    <ValidationSummary />
+
+    <!-- Información del Cliente -->
+    <div class="form-group">
+        <label for="customerId">
+            @CreateOrderMessages.CustomerIdLabel
+        </label>
+        <InputText class="form-control" id="customerId"
+                   placeholder="@CreateOrderMessages.CustomerIdLabel"
+                   @bind-Value="Order.CustomerId" />
+        <ValidationMessage For="() => Order.CustomerId" />
+    </div>
+
+    <!-- Dirección de Envío -->
+    <div class="form-group">
+        <label for="shipAddress">
+            @CreateOrderMessages.ShipAddressLabel
+        </label>
+        <InputText class="form-control" id="shipAddress"
+                   placeholder="@CreateOrderMessages.ShipAddressLabel"
+                   @bind-Value="Order.ShipAddress" />
+        <ValidationMessage For="() => Order.ShipAddress" />
+    </div>
+
+    <div class="form-group">
+        <label for="shipCity">
+            @CreateOrderMessages.ShipCityLabel
+        </label>
+        <InputText class="form-control" id="shipCity"
+                   placeholder="@CreateOrderMessages.ShipCityLabel"
+                   @bind-Value="Order.ShipCity" />
+        <ValidationMessage For="() => Order.ShipCity" />
+    </div>
+
+    <div class="form-group">
+        <label for="shipCountry">
+            @CreateOrderMessages.ShipCountryLabel
+        </label>
+        <InputText class="form-control" id="shipCountry"
+                   placeholder="@CreateOrderMessages.ShipCountryLabel"
+                   @bind-Value="Order.ShipCountry" />
+        <ValidationMessage For="() => Order.ShipCountry" />
+    </div>
+
+    <div class="form-group">
+        <label for="shipPostalCode">
+            @CreateOrderMessages.ShipPostalCodeLabel
+        </label>
+        <InputText class="form-control" id="shipPostalCode"
+                   placeholder="@CreateOrderMessages.ShipPostalCodeLabel"
+                   @bind-Value="Order.ShipPostalCode" />
+        <ValidationMessage For="() => Order.ShipPostalCode" />
+    </div>
+
+    <hr />
+
+    <!-- Encabezados de Productos -->
+    <div class="row font-weight-bold">
+        <div class="col">
+            @CreateOrderMessages.ProductIdLabel
+        </div>
+        <div class="col">
+            @CreateOrderMessages.UnitPriceLabel
+        </div>
+        <div class="col">
+            @CreateOrderMessages.QuantityLabel
+        </div>
+    </div>
+
+    <!-- Lista de Productos -->
+    @foreach (var item in Order.OrderDetails)
+    {
+        <div class="row mb-2">
+            <div class="col">
+                <InputNumber class="form-control"
+                             placeholder="@CreateOrderMessages.ProductIdLabel"
+                             @bind-Value="item.ProductId" />
+                <ValidationMessage For="() => item.ProductId" />
+            </div>
+            <div class="col">
+                <InputNumber class="form-control"
+                             placeholder="@CreateOrderMessages.UnitPriceLabel"
+                             @bind-Value="item.UnitPrice" />
+                <ValidationMessage For="() => item.UnitPrice" />
+            </div>
+            <div class="col">
+                <InputNumber class="form-control"
+                             placeholder="@CreateOrderMessages.QuantityLabel"
+                             @bind-Value="item.Quantity" />
+                <ValidationMessage For="() => item.Quantity" />
+            </div>
+        </div>
+    }
+
+    <!-- Botones de Acción -->
+    <div class="row p-3">
+        <div class="col">
+            <button type="button" class="btn btn-primary"
+                    @onclick="Order.AddNewOrderDetailItem">
+                @CreateOrderMessages.AddProductButtonText
+            </button>
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-success">
+                @CreateOrderMessages.SendButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+<hr />
+
+<!-- Mensaje Informativo -->
+@if (!string.IsNullOrWhiteSpace(Order.InformationMessage))
+{
+    <div class="alert alert-info">
+        @Order.InformationMessage
+    </div>
+}
